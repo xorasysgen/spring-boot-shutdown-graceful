@@ -10,8 +10,8 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>spring-shutdown-graceful</groupId>
-	<artifactId>com.solum.app</artifactId>
+	<groupId>com.solum.app</groupId>
+	<artifactId>spring-shutdown-graceful</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>spring-shutdown-graceful</name>
