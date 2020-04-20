@@ -14,16 +14,25 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.solum.app.config.ContextClosedHandler;
 import com.solum.app.config.ShutdownHealthChecker;
 import com.solum.app.config.ShutdownHookHandler;
 import com.solum.app.exception.CommonException;
 
 @SpringBootApplication
 @RestController
-public class SpringWarApplication {
+public class SpringWarApplication  {
 
+	
 	@Bean
-	HealthIndicator gracefulShutdownHealthCheck() {
+	public ContextClosedHandler contextClosedHandler(){
+		return new ContextClosedHandler();
+		
+	}
+	
+	
+	@Bean
+	public HealthIndicator gracefulShutdownHealthCheck() {
 		return new ShutdownHealthChecker();
 	}
 
@@ -44,7 +53,10 @@ public class SpringWarApplication {
 	public String pause() {
 		System.out.println("process started..");
 		try {
-			Thread.sleep(20000);
+			for(int i=1;i<100;i++) {
+				System.out.println("runing " + i);
+			Thread.sleep(500);
+			}
 		} catch (InterruptedException e) {
 			throw new CommonException("SERVICE_UNAVAILABLE, Server forcefully shutdown");
 		}
@@ -61,6 +73,7 @@ public class SpringWarApplication {
 
 	@PreDestroy
 	public void destroy() {
-		System.out.println("|||Pending active thread task completed|||");
+		System.out.println("|||Pending active thread task being completed|||");
 	}
+
 }
