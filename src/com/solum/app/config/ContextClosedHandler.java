@@ -35,7 +35,7 @@ public class ContextClosedHandler implements ApplicationListener<ContextClosedEv
 				log.warn("Permitted up to " + ShutdownHookHandler.GRACEFUL_SHUTDOWN_WAIT_SECONDS + "s for active requests to complete");
 				if (!threadPoolExecutor.awaitTermination(30, TimeUnit.SECONDS)) {
 					log.warn("Shutting Down application gracefully within " +ShutdownHookHandler.GRACEFUL_SHUTDOWN_WAIT_SECONDS +
-							"s Proceeding with forceful shutdown") ;
+							"s Proceeding with graceful shutdown") ;
 					threadPoolExecutor.shutdownNow();
 					if (!threadPoolExecutor.awaitTermination(30, TimeUnit.SECONDS)) {
 						log.error("Tomcat thread pool could not terminated");

@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.health.HealthIndicator;
@@ -21,16 +23,16 @@ import com.solum.app.exception.CommonException;
 
 @SpringBootApplication
 @RestController
-public class SpringWarApplication  {
+public class SpringWarApplication {
+	
+	private static final Log log = LogFactory.getLog(SpringWarApplication.class);
 
-	
 	@Bean
-	public ContextClosedHandler contextClosedHandler(){
+	public ContextClosedHandler contextClosedHandler() {
 		return new ContextClosedHandler();
-		
+
 	}
-	
-	
+
 	@Bean
 	public HealthIndicator gracefulShutdownHealthCheck() {
 		return new ShutdownHealthChecker();
@@ -43,19 +45,19 @@ public class SpringWarApplication  {
 		SpringApplication.run(SpringWarApplication.class, args);
 	}
 
-	@GetMapping("/date")
+	@GetMapping("/")
 	public String serverDate() {
-		System.out.println("hello");
+		log.debug("system is up and running...");
 		return new Date().toString();
 	}
 
 	@GetMapping("/long-process")
 	public String pause() {
-		System.out.println("process started..");
+		System.out.println("long process started..");
 		try {
-			for(int i=1;i<100;i++) {
+			for (int i = 1; i < 100; i++) {
 				System.out.println("runing " + i);
-			Thread.sleep(500);
+				Thread.sleep(500);
 			}
 		} catch (InterruptedException e) {
 			throw new CommonException("SERVICE_UNAVAILABLE, Server forcefully shutdown");
@@ -73,7 +75,7 @@ public class SpringWarApplication  {
 
 	@PreDestroy
 	public void destroy() {
-		System.out.println("|||Pending active thread task being completed|||");
+		log.debug(":::::Pending active thread task  completed:::::");
 	}
 
 }
