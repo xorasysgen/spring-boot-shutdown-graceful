@@ -38,9 +38,10 @@ public class ShutdownHookHandler implements Runnable {
         log.debug("Shutdown completed, Spring Application context is shutdown");
     }
 
+    //FIXME #network connection to put on hold during thread pause
     private void setReadynessToFalse() {
         log.debug("Incoming connection is being closed, Stopped accepting new HTTP requests");
-       // applicationContext.refresh(); //illegal thread exception might occurred
+        // applicationContext.refresh(); //illegal thread exception might occurred
         final Map<String, IProbeController> probeControllers = applicationContext.getBeansOfType(IProbeController.class);
         if (probeControllers.size() < 1) {
             log.error("Could not find a ProbeController Bean" + IProbeController.class.getName());

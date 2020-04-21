@@ -53,10 +53,14 @@ public class SpringWarApplication {
 
 	@GetMapping("/long-process")
 	public String pause() {
-		System.out.println("long process started..");
+		int runUntill=100;
+		System.out.println("Thread having PID [" + Thread.currentThread().getId() + "] long process started.." + runUntill + " times should execute");
 		try {
-			for (int i = 1; i < 100; i++) {
-				System.out.println("runing " + i);
+			for (int i = 1; i <= runUntill; i++) {
+				if(i!=100)
+					System.out.println("thread Job PID " + Thread.currentThread().getId() + " processing " + i + "th item out of "+ runUntill);
+				else
+					System.out.println("thread Job PID " + Thread.currentThread().getId() + " [ Completed ]" + i + "th item out of "+ runUntill + " Thread exited...");
 				Thread.sleep(500);
 			}
 		} catch (InterruptedException e) {
@@ -75,6 +79,7 @@ public class SpringWarApplication {
 
 	@PreDestroy
 	public void destroy() {
+		//TODO  #may perform clean up
 		log.debug(":::::Pending active thread task  completed:::::");
 	}
 
